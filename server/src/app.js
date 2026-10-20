@@ -10,8 +10,12 @@ import { isDatabaseConnected } from './config/db.js';
 
 const app = express();
 
+// Required when running behind a hosting proxy (Render, Railway, etc.)
+// so rate-limiting sees the real client IP. Harmless during local development.
+app.set('trust proxy', 1);
+
 app.use(helmet());
-app.use(cors({ origin: env.clientUrl }));
+app.use(cors({ origin: env.clientUrls }));
 app.use(express.json({ limit: '100kb' }));
 
 app.use('/api', apiLimiter);

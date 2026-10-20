@@ -4,7 +4,11 @@ dotenv.config();
 
 const env = {
   port: process.env.PORT || 5000,
-  clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
+  // Comma-separated list of allowed frontend origins (CORS).
+  clientUrls: (process.env.CLIENT_URL || 'http://localhost:5173')
+    .split(',')
+    .map((url) => url.trim())
+    .filter(Boolean),
   mongoUri: (process.env.MONGODB_URI || '').trim(),
 };
 

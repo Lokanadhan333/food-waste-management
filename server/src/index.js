@@ -7,7 +7,7 @@ async function start() {
 
   app.listen(env.port, () => {
     console.log(`FoodShare API running on http://localhost:${env.port}`);
-    console.log(`Allowed frontend origin: ${env.clientUrl}`);
+    console.log(`Allowed frontend origin(s): ${env.clientUrls.join(', ')}`);
   });
 }
 

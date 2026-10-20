@@ -1,0 +1,15 @@
+# Render Blueprint - deploys the FoodShare Express API with one click.
+# In Render: New + Blueprint -> select this repository -> Apply.
+services:
+  - type: web
+    name: foodshare-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: CLIENT_URL
+        value: http://localhost:5173
+      - key: NODE_ENV
+        value: production

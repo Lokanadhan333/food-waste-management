@@ -29,6 +29,10 @@ pickup before it expires.
 
 You need **Node.js v18 or newer** installed ([download here](https://nodejs.org)).
 
+> ⚠️ **Sharing this project with someone?** They must also install Node.js first (the LTS
+> version from [nodejs.org](https://nodejs.org)), then double-click `START-FoodShare.bat`.
+> The first run automatically installs the rest.
+
 ### 🪟 Windows: the easy way (no commands needed)
 
 1. Double-click **`START-FoodShare.bat`** in the project folder.

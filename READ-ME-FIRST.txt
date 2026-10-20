@@ -1,0 +1,86 @@
+====================================================
+  FoodShare - HOW TO RUN THIS PROJECT
+====================================================
+
+Hi! This folder contains a complete food waste
+management website (React + Node.js + Express).
+
+Follow these 3 simple steps to run it.  🙂
+
+
+STEP 1 - Install Node.js (one time only)
+----------------------------------------
+Go to:  https://nodejs.org
+
+Download the big green button that says "LTS".
+
+Install it (click Next, Next, Finish).
+You can leave every option as it is.
+
+
+STEP 2 - Start the website
+--------------------------
+Double-click this file:
+
+     START-FoodShare.bat
+
+A black window will open and work for about
+30 seconds (the first time is slower, because it
+downloads the needed packages).
+
+If Windows shows a blue warning box, click
+"More info"  ->  "Run anyway".
+It is just your own file - it is safe.
+
+
+STEP 3 - Use the website
+------------------------
+Your browser will open automatically at:
+
+     http://localhost:5173
+
+If it does not open by itself, open your browser
+manually and type this address:
+
+     http://localhost:5173
+
+
+TO STOP THE WEBSITE
+-------------------
+Double-click:  STOP-FoodShare.bat
+
+
+----------------------------------------------------
+WHAT YOU CAN DO ON THE SITE
+----------------------------------------------------
+  * Home page    - live statistics
+  * Donate Food  - post surplus food
+  * Find Food    - search donations and request one
+  * About        - why food waste matters
+  * Contact      - send a message
+
+Try the whole flow: donate some food, then find it
+on the Find Food page, then request it.  🙂
+
+----------------------------------------------------
+NOTES
+----------------------------------------------------
+* Two small black windows appear while the site is
+  running. Leave them open, and close them with
+  STOP-FoodShare.bat when you are finished.
+
+* No database setup is needed. The project uses a
+  temporary in-memory store by default, so it works
+  immediately. (Data resets when you stop it.)
+
+* Works on Windows. On Mac or Linux, see README.md
+  for the manual commands.
+
+* The website only runs on the computer where you
+  start it. Your friend opens their own copy at
+  http://localhost:5173 on their machine.
+
+----------------------------------------------------
+Full details, API documentation and screenshots are
+in README.md
+----------------------------------------------------

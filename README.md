@@ -29,7 +29,20 @@ pickup before it expires.
 
 You need **Node.js v18 or newer** installed ([download here](https://nodejs.org)).
 
-### 1. Get the code
+### 🪟 Windows: the easy way (no commands needed)
+
+1. Double-click **`START-FoodShare.bat`** in the project folder.
+2. Wait about 30 seconds (the first run installs dependencies).
+3. Your browser opens **http://localhost:5173** automatically. 🎉
+
+To shut it down later, double-click **`STOP-FoodShare.bat`**.
+
+> Two small windows will appear (the backend and the website). Leave them open while you use
+> the site — closing them stops the app.
+
+### 🧑‍💻 Any system: manual setup
+
+**1. Get the code**
 
 ```bash
 git clone https://github.com/Lokanadhan333/food-waste-management.git

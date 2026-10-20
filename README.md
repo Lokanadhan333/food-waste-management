@@ -1,13 +1,85 @@
 # 🌿 FoodShare – Food Waste Management Website
 
-**Share Food, Reduce Waste, Feed Lives.**
+### *Share Food, Reduce Waste, Feed Lives.*
 
-FoodShare is a beginner-friendly, full-stack platform that reduces food waste by connecting
-people and organisations who have surplus food with people and organisations who need it.
+FoodShare is a full-stack platform that reduces food waste by connecting people and
+organisations who have **surplus food** with the people and organisations who **need it**.
+Donors list extra food in seconds; shelters, NGOs, and individuals find it and request a
+pickup before it expires.
 
-- **Frontend:** HTML5, CSS3, JavaScript, React.js (Vite), React Router, Fetch API
-- **Backend:** Node.js + Express.js REST API
-- **Database:** MongoDB with Mongoose (automatic **in-memory fallback** for local development)
+> **Tech stack:** React.js (Vite) + React Router + Fetch API · Node.js + Express.js · MongoDB (Mongoose) · HTML5 · CSS3
+
+---
+
+## 📸 Screenshots
+
+| Home | Find Food |
+| --- | --- |
+| ![Home page](docs/screenshots/home.png) | ![Find Food page](docs/screenshots/find-food.png) |
+
+| Donate Food | Contact |
+| --- | --- |
+| ![Donate Food page](docs/screenshots/donate.png) | ![Contact page](docs/screenshots/contact.png) |
+
+![About page](docs/screenshots/about.png)
+
+---
+
+## 🚀 Run This Project Locally (2 minutes)
+
+You need **Node.js v18 or newer** installed ([download here](https://nodejs.org)).
+
+### 1. Get the code
+
+```bash
+git clone https://github.com/Lokanadhan333/food-waste-management.git
+cd food-waste-management
+```
+
+### 2. Start the backend (leave this terminal running)
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+You should see:
+
+```
+[database] MONGODB_URI is not set - running with the IN-MEMORY store (data is temporary).
+FoodShare API running on http://localhost:5000
+```
+
+### 3. Start the frontend (open a **second** terminal)
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+### 4. Open your browser
+
+👉 **http://localhost:5173**
+
+That's it — the whole donation workflow works out of the box, no database setup required. 🎉
+
+> **No MongoDB yet?** No problem. With `MONGODB_URI` empty, the server automatically uses a
+> temporary in-memory store so you can try everything immediately. Data resets when the server
+> restarts. See [Database Configuration](#-database-configuration) to switch to MongoDB.
+
+---
+
+## ✅ Try the Complete Workflow
+
+1. **Donate Food** — fill in the form (e.g. 40 boxes of biryani, deadline a few hours ahead) and
+   click **Submit Donation**. You'll get a success message and a private **delete token**.
+2. **Find Food** — your donation appears as a card. Try the **search bar** and **category filter**.
+3. **Request Food** — click it, enter your name and number, and send. The donor's pickup contact
+   is revealed only to you.
+4. **Delete** — back on Find Food, the donor (whose browser holds the delete token) can remove
+   the listing. Anyone else gets a `403`.
 
 ---
 
@@ -15,120 +87,15 @@ people and organisations who have surplus food with people and organisations who
 
 | Page | What it does |
 | --- | --- |
-| **Home** | Hero section, live statistics (donations, meal requests, people helped), "Donate Food" & "Find Food" buttons |
-| **Donate Food** | Full donation form with client + server validation, loading/success/error states, private delete token |
+| **Home** | Hero section, "Donate Food" & "Find Food" buttons, live statistics (donations, requests, people helped, meals available) |
+| **Donate Food** | Full donation form with client + server validation, loading/success/error states, one-time private delete token |
 | **Find Food** | Search bar, category filter, donation cards, "Request Food" flow, empty state, authorized delete |
 | **About** | Why food waste matters and how FoodShare helps communities |
 | **Contact** | Contact form (name, email, message) saved through the API |
 
-### Complete donation workflow
-
-1. A donor submits the **Donate Food** form → `POST /api/donations` → saved in the database.
-2. The donation appears on the **Find Food** page → `GET /api/donations`.
-3. Someone clicks **Request Food** → `POST /api/donations/:id/request` → the donor's pickup
-   contact is shared **only** with the requester.
-4. The donor (and only the donor) can delete the listing with a private delete token →
-   `DELETE /api/donations/:id`.
-
----
-
-## 📁 Project Structure
-
-```
-food-waste-management/
-├── client/                  # React frontend (Vite)
-│   ├── index.html
-│   ├── .env                 # VITE_API_URL=http://localhost:5000
-│   ├── vite.config.js
-│   └── src/
-│       ├── main.jsx
-│       ├── App.jsx
-│       ├── styles/index.css
-│       ├── services/api.js  # Reusable Fetch API service
-│       ├── components/      # Navbar, Footer, DonationCard, Spinner, Message
-│       └── pages/           # Home, Donate, FindFood, About, Contact
-└── server/                  # Express backend
-    ├── .env                 # PORT, CLIENT_URL, MONGODB_URI
-    └── src/
-        ├── index.js         # Starts the server
-        ├── app.js           # Express app + middleware + routes
-        ├── config/          # env.js, db.js (MongoDB connection)
-        ├── models/          # Donation, FoodRequest, ContactMessage (Mongoose)
-        ├── controllers/     # donationController, contactController
-        ├── routes/          # donationRoutes, contactRoutes
-        ├── middleware/      # validate, rateLimiter, errorHandler
-        └── store/           # In-memory fallback store
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Node.js** v18 or newer (with npm)
-- Optional: a free MongoDB Atlas account for persistent data
-
-### 1. Install dependencies
-
-```bash
-# Backend
-cd server
-npm install
-
-# Frontend (in a second terminal)
-cd client
-npm install
-```
-
-### 2. Configure environment variables
-
-**Backend** – copy `server/.env.example` to `server/.env`:
-
-```env
-PORT=5000
-CLIENT_URL=http://localhost:5173
-MONGODB_URI=your_mongodb_connection_string
-```
-
-**Frontend** – copy `client/.env.example` to `client/.env`:
-
-```env
-VITE_API_URL=http://localhost:5000
-```
-
-### 3. Database configuration
-
-**Option A – MongoDB (recommended for real use)**
-
-1. Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/atlas).
-2. Create a database user and allow your IP address.
-3. Copy the connection string into `MONGODB_URI`, e.g.:
-
-   ```
-   MONGODB_URI=mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/foodshare
-   ```
-
-**Option B – In-memory store (local development, no credentials needed)**
-
-Leave `MONGODB_URI` **empty**. The server prints a warning and automatically uses a temporary
-in-memory store. The website works exactly the same, but **data is lost when the server
-restarts**. This option is clearly marked in the logs and in the API health response
-(`"database": "in-memory"`).
-
-### 4. Start both servers
-
-```bash
-# Terminal 1 – backend on http://localhost:5000
-cd server
-npm run dev        # or: npm start
-
-# Terminal 2 – frontend on http://localhost:5173
-cd client
-npm run dev
-```
-
-Open **http://localhost:5173** in your browser. 🎉
+### Design
+Clean, modern, eco-friendly look in **green, white, and light-orange**; responsive on mobile,
+tablet, and desktop; hover animations; accessible forms with labels and focus outlines.
 
 ---
 
@@ -159,15 +126,15 @@ curl -X POST http://localhost:5000/api/donations \
     "quantity": "40",
     "unit": "boxes",
     "category": "vegetarian",
-    "preparedAt": "2026-10-20T12:00",
-    "expiresAt": "2026-10-20T20:00",
+    "preparedAt": "2026-10-20T15:45",
+    "expiresAt": "2026-10-20T21:45",
     "pickupLocation": "12 MG Road, Bengaluru",
     "contactNumber": "+91 98765 43210"
   }'
 ```
 
-The response contains a one-time **`deleteToken`**. Keep it private — it is the only way to
-delete the donation later:
+The response contains a one-time **`deleteToken`** — keep it private, it's the only way to delete
+the donation later:
 
 ```bash
 curl -X DELETE http://localhost:5000/api/donations/DONATION_ID \
@@ -184,61 +151,132 @@ curl -X POST http://localhost:5000/api/donations/DONATION_ID/request \
 
 ### Testing with a GUI
 
-Use [Postman](https://www.postman.com/) or [Thunder Client](https://www.thunderclient.com/)
-(VS Code extension) — create a new request, set the method and URL above, choose **JSON** body,
-and send.
+Use [Postman](https://www.postman.com/) or the [Thunder Client](https://www.thunderclient.com/)
+VS Code extension — pick the method, paste the URL, choose a **JSON** body, and send.
+
+---
+
+## 📁 Project Structure
+
+```
+food-waste-management/
+├── README.md
+├── render.yaml              # Optional one-click backend deploy (Render Blueprint)
+├── docs/screenshots/        # README images
+├── client/                  # React frontend (Vite)
+│   ├── index.html
+│   ├── .env.example         # VITE_API_URL=http://localhost:5000
+│   ├── vite.config.js
+│   ├── vercel.json          # SPA rewrites for Vercel
+│   └── src/
+│       ├── main.jsx
+│       ├── App.jsx
+│       ├── styles/index.css
+│       ├── services/api.js  # Reusable Fetch API service
+│       ├── components/      # Navbar, Footer, DonationCard, Spinner, Message
+│       └── pages/           # Home, Donate, FindFood, About, Contact
+└── server/                  # Express backend
+    ├── .env.example         # PORT, CLIENT_URL, MONGODB_URI
+    └── src/
+        ├── index.js         # Starts the server
+        ├── app.js           # Express app + middleware + routes
+        ├── config/          # env.js, db.js (MongoDB connection)
+        ├── models/          # Donation, FoodRequest, ContactMessage (Mongoose)
+        ├── controllers/     # donationController, contactController
+        ├── routes/          # donationRoutes, contactRoutes
+        ├── middleware/      # validate, rateLimiter, errorHandler
+        └── store/           # In-memory fallback store
+```
+
+---
+
+## ⚙️ Environment Variables
+
+**Backend** — copy `server/.env.example` to `server/.env`:
+
+```env
+PORT=5000
+CLIENT_URL=http://localhost:5173
+MONGODB_URI=your_mongodb_connection_string
+```
+
+**Frontend** — copy `client/.env.example` to `client/.env`:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+> 🔒 Only `VITE_API_URL` is exposed to the browser. **Database credentials never leave the
+> backend.**
+
+---
+
+## 🗄️ Database Configuration
+
+**Option A — MongoDB (persistent data)**
+
+1. Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/atlas).
+2. Create a database user and allow your IP address.
+3. Put the connection string in `server/.env`:
+
+   ```env
+   MONGODB_URI=mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/foodshare
+   ```
+
+4. Restart the server — you'll see `[database] Connected to MongoDB.`
+
+**Option B — In-memory store (no setup)**
+
+Leave `MONGODB_URI` empty. The server warns you and uses a temporary in-memory store.
+`GET /api/health` reports `"database": "in-memory"`. Data is lost on restart — ideal for a
+quick local demo.
+
+**Stored data:** food donation details, donor information, pickup locations, expiry deadlines,
+collection requests, and donation status (`available`, `requested`, `collected`, `expired`).
 
 ---
 
 ## 🔒 Security & Validation
 
 - **Dual validation** — every field is validated in React *and* again in Express.
-- **Food safety** — donations with a deadline in the past are rejected; expired donations are
-  automatically marked `expired` and cannot be requested.
-- **Database credentials** never appear in frontend code — only `VITE_API_URL` is exposed.
-- **Authorized deletion** — a random `deleteToken` is generated per donation, returned once to
-  the donor, and checked (via the `X-Delete-Token` header) before deleting. Anyone else gets a
-  `403`.
-- **Privacy** — donor phone numbers are hidden from public listings and only shared with people
+- **Food safety** — deadlines in the past are rejected; expired donations are auto-marked
+  `expired` and can't be requested.
+- **Authorized deletion** — a random `deleteToken` per donation, returned once to the donor and
+  checked via the `X-Delete-Token` header. Anyone else gets `403`.
+- **Privacy** — donor phone numbers are hidden from public listings and shared only with people
   who submit a request.
-- **Rate limiting** — `express-rate-limit` protects the API (300 requests / 15 min, stricter
-  30 / 15 min on forms).
-- **Headers & errors** — `helmet` sets safe HTTP headers, CORS is restricted to the frontend
-  URL, and a central error handler hides stack traces from clients.
+- **Rate limiting** — 300 requests / 15 min per IP; 30 / 15 min on forms.
+- **helmet** HTTP headers, CORS restricted to `CLIENT_URL`, and a central error handler that
+  never leaks stack traces.
 
 ---
 
-## 🌐 Deployment
+## 🧩 Available Scripts
 
-### Backend (Render / Railway / Cyclic)
-
-1. Push the project to GitHub.
-2. Create a new **Web Service** pointing at the `server/` folder.
-3. Set the environment variables:
-   - `MONGODB_URI` = your Atlas connection string
-   - `CLIENT_URL` = your deployed frontend URL (e.g. `https://foodshare.vercel.app`)
-   - `PORT` (usually provided by the platform)
-4. Start command: `npm start`
-
-### Frontend (Vercel / Netlify)
-
-1. Set the build directory to `client/` and the build command to `npm run build`.
-2. Add the environment variable `VITE_API_URL` = your deployed backend URL.
-3. Deploy. For client-side routing (React Router), add a rewrite rule:
-   - **Vercel** – `vercel.json`: `{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }`
-   - **Netlify** – `_redirects` file: `/* /index.html 200`
-
----
-
-## 🧩 Scripts
-
-| Where | Command | What it does |
+| Location | Command | What it does |
 | --- | --- | --- |
 | `server/` | `npm run dev` | Start Express with auto-reload |
 | `server/` | `npm start` | Start Express |
 | `client/` | `npm run dev` | Start Vite dev server (port 5173) |
 | `client/` | `npm run build` | Production build to `client/dist/` |
 | `client/` | `npm run preview` | Preview the production build |
+
+---
+
+## 🌐 Deployment
+
+**Backend (Render)**
+
+1. Push this repo to GitHub.
+2. In Render: **New + → Blueprint** → select this repo (it reads `render.yaml`) → **Apply**.
+3. Set `CLIENT_URL` to your deployed frontend URL and add `MONGODB_URI` for persistent data.
+
+**Frontend (Vercel / Netlify)**
+
+1. Import the repo; set **Root Directory** to `client`.
+2. Add the environment variable `VITE_API_URL` = your deployed backend URL.
+3. Deploy. Client-side routing works via the included `client/vercel.json` (for Netlify, add a
+   `_redirects` file containing `/* /index.html 200`).
 
 ---
 
